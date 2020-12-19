@@ -1,16 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Announcements from "pages/Announcements.vue";
 
 Vue.use(VueRouter)
 
 const routes = [
-    /*{ path: '/admin', component: Admin },
-    { path: '/admin/users', component: UserList },
-    { path: '/admin/makers', component: Makers },
-    { path: '/add', component: CarAdding },
-    { path: '/update/:id', component: CarUpdating },
-    { path: '/', component: Cars },
-    { path: '/admin/users/:id', component: UserUpdating },*/
+    { path: '/', component: Announcements }
 ]
 
 export default new VueRouter({

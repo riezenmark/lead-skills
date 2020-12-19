@@ -1,12 +1,11 @@
 package org.omaewa.notastepik.repository;
 
 import org.omaewa.notastepik.domain.Module;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ModuleRepository extends JpaRepository<Module, Long> {
@@ -15,7 +14,7 @@ public interface ModuleRepository extends JpaRepository<Module, Long> {
 
     @Override
     @EntityGraph(attributePaths = {"announcement", "announcement.subject", "announcement.user", "announcement.user.authorities"})
-    Page<Module> findAll(final Pageable pageable);
+    List<Module> findAll();
 
     @Override
     @EntityGraph(attributePaths = {"announcement", "announcement.subject", "announcement.user", "announcement.user.authorities"})

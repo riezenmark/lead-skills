@@ -35,6 +35,7 @@
       </v-btn>
     </v-navigation-drawer>
     <v-app-bar app color="#D0D0D0" clipped-left>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="black--text"></v-app-bar-nav-icon>
       <v-btn large text @click="mainPage">
         <v-icon left>mdi-school</v-icon>
         Lead Skills
@@ -65,7 +66,7 @@
             </v-row>
           </v-col>
         </v-row>
-        <router-view></router-view>
+        <router-view :announcements="announcements"></router-view>
       </v-container>
     </v-main>
     <v-footer app color="#D0D0D0" class="white--text">
@@ -82,7 +83,8 @@ import {mapState} from 'vuex'
 export default {
 
   data: () => ({
-
+    announcements: [],
+    drawer: null
   }),
   computed: mapState(['profile']),
   methods: {
@@ -94,6 +96,13 @@ export default {
   },
   props: {
     source: String,
+  },
+  created() {
+    this.$resource("/api/announcement").get().then(result =>
+        result.json().then(data =>
+            data.forEach(announcement => this.announcements.push(announcement))
+        )
+    )
   }
 }
 </script>

@@ -6,12 +6,10 @@ import org.omaewa.notastepik.service.api.util.CrudService;
 import org.omaewa.notastepik.service.api.util.FormattingService;
 import org.omaewa.notastepik.service.api.util.ValidatingService;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -20,8 +18,8 @@ public abstract class AbstractService<ID, T extends PrimaryEntity<ID>, R extends
 
     @Override
     @Transactional(readOnly = true)
-    public Page<T> getPage(@PageableDefault final Pageable pageable) {
-        return repository.findAll(pageable);
+    public List<T> getPage() {
+        return repository.findAll();
     }
 
     @Override

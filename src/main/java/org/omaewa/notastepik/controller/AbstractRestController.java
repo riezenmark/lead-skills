@@ -1,13 +1,12 @@
 package org.omaewa.notastepik.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import org.omaewa.notastepik.service.api.util.CrudService;
 import lombok.RequiredArgsConstructor;
+import org.omaewa.notastepik.service.api.util.CrudService;
 import org.omaewa.notastepik.util.Views;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 public abstract class AbstractRestController<T, ID, S extends CrudService<T, ID>> {
@@ -15,8 +14,8 @@ public abstract class AbstractRestController<T, ID, S extends CrudService<T, ID>
 
     @GetMapping
     @JsonView(Views.IdRepresentation.class)
-    public Page<T> list(@PageableDefault final Pageable pageable) {
-        return service.getPage(pageable);
+    public List<T> list() {
+        return service.getPage();
     }
 
     @GetMapping("{id}")
