@@ -35,12 +35,12 @@ public class Announcement implements PrimaryEntity<Long> {
     @JsonView(Views.Representation.class)
     @Column(columnDefinition = "smallint default 0")
     private short numberOfParticipants;
-    @Column(name = "date_time_from", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    @Column(name = "date_time_from")
     @JsonView(Views.Representation.class)
-    private Calendar timeFrom;
-    @Column(name = "date_time_to", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+    private Long timeFrom;
+    @Column(name = "date_time_to")
     @JsonView(Views.Representation.class)
-    private Calendar timeTo;
+    private Long timeTo;
     @JsonView(Views.Representation.class)
     @Column(columnDefinition = "boolean default false")
     private boolean occupied;

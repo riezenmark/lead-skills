@@ -2,7 +2,7 @@ package org.omaewa.notastepik.repository.custom.impl;
 
 import org.omaewa.notastepik.domain.Announcement;
 import org.omaewa.notastepik.domain.AnnouncementType;
-import org.omaewa.notastepik.repository.custom.api.CustomAnnouncementRepository;
+import org.omaewa.notastepik.repository.custom.AnnouncementRepositoryCustom;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -12,11 +12,12 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.sql.Timestamp;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Repository
-public class CustomAnnouncementRepositoryImpl implements CustomAnnouncementRepository {
+public class AnnouncementRepositoryCustomImpl implements AnnouncementRepositoryCustom {
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -52,14 +53,10 @@ public class CustomAnnouncementRepositoryImpl implements CustomAnnouncementRepos
            predicateList.add(criteriaBuilder.like(announcementRoot.get("name"), q));
        }
        if (Objects.nonNull(timeFrom)) {
-           Calendar calendar = GregorianCalendar.getInstance();
-           calendar.setTime(new Timestamp(timeFrom));
-           predicateList.add(criteriaBuilder.ge(announcementRoot.get("timeFrom"), calendar.getTimeInMillis()));
+           predicateList.add(criteriaBuilder.ge(announcementRoot.get("timeFrom"), timeFrom));
        }
         if (Objects.nonNull(timeTo)) {
-            Calendar calendar = GregorianCalendar.getInstance();
-            calendar.setTime(new Timestamp(timeTo));
-            predicateList.add(criteriaBuilder.le(announcementRoot.get("timeTo"), calendar.getTimeInMillis()));
+            predicateList.add(criteriaBuilder.le(announcementRoot.get("timeTo"), timeTo));
         }
         if (Objects.nonNull(type)) {
             predicateList.add(criteriaBuilder.equal(announcementRoot.get("type"), type));

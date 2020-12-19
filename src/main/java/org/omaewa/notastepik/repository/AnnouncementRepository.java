@@ -1,7 +1,7 @@
 package org.omaewa.notastepik.repository;
 
 import org.omaewa.notastepik.domain.Announcement;
-import org.omaewa.notastepik.repository.custom.api.CustomAnnouncementRepository;
+import org.omaewa.notastepik.repository.custom.AnnouncementRepositoryCustom;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,17 +9,17 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface AnnouncementRepository extends JpaRepository<Announcement, Long>, CustomAnnouncementRepository {
+public interface AnnouncementRepository extends JpaRepository<Announcement, Long>, AnnouncementRepositoryCustom {
     @Query("select a from Announcement a where a.author.id = :userId")
     Iterable<Announcement> findAllByUser_Id(final Long userId);
 
     boolean existsByHeading(final String heading);
 
     @Override
-    @EntityGraph(attributePaths = {"subject", "user", "user.authorities"})
+    @EntityGraph(attributePaths = {"user", "user.authorities"})
     List<Announcement> findAll();
 
     @Override
-    @EntityGraph(attributePaths = {"subject", "user", "user.authorities"})
-    Optional<Announcement> findById(final Long aLong);
+    @EntityGraph(attributePaths = {"user", "user.authorities"})
+    Optional<Announcement> findById(final Long id);
 }

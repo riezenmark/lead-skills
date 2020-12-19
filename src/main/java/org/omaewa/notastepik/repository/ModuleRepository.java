@@ -13,11 +13,11 @@ public interface ModuleRepository extends JpaRepository<Module, Long> {
     Iterable<Module> findAllByAnnouncement_Id(final Long announcementId);
 
     @Override
-    @EntityGraph(attributePaths = {"announcement", "announcement.subject", "announcement.user", "announcement.user.authorities"})
+    @EntityGraph(attributePaths = {"announcement", "announcement.user", "announcement.user.authorities"})
     List<Module> findAll();
 
     @Override
-    @EntityGraph(attributePaths = {"announcement", "announcement.subject", "announcement.user", "announcement.user.authorities"})
+    @EntityGraph(attributePaths = {"announcement", "announcement.user", "announcement.user.authorities"})
     Optional<Module> findById(final Long id);
 
     boolean existsByNumberOrNameAndAnnouncement_Id(final short number, final String name, final Long announcementId);
