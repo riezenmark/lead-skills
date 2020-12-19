@@ -25,7 +25,7 @@ public class TimetableServiceImpl extends AbstractService<Long, Timetable, Timet
 
     @Override
     @Transactional
-    public void deleteAllUserTimetables(final Long userId) {
+    public void deleteAllUserTimetables(final String userId) {
         Iterable<Timetable> timetablesOfUser = repository.findByUser_Id(userId);
         repository.deleteInBatch(timetablesOfUser);
     }

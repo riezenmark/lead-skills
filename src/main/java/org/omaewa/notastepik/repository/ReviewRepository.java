@@ -13,7 +13,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Iterable<Review> findAllByAnnouncement_Id(final Long announcementId);
 
     @Query("select r from Review r where r.user.id = :userId")
-    Iterable<Review> findAllByUser_Id(final Long userId);
+    Iterable<Review> findAllByUser_Id(final String userId);
 
     @Override
     @EntityGraph(attributePaths = {"announcement", "user"})

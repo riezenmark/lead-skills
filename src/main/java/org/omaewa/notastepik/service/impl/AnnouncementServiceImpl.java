@@ -38,7 +38,7 @@ public class AnnouncementServiceImpl extends AbstractService<Long, Announcement,
 
     @Override
     @Transactional
-    public void deleteAllUserAnnouncements(final Long userId) {
+    public void deleteAllUserAnnouncements(final String userId) {
         Iterable<Announcement> announcementsOfUser = repository.findAllByUser_Id(userId);
         announcementsOfUser.forEach(this::delete);
         repository.deleteInBatch(announcementsOfUser);
@@ -61,7 +61,7 @@ public class AnnouncementServiceImpl extends AbstractService<Long, Announcement,
     }
 
     @Override
-    public List<Announcement> getAnnouncementsOfUserWithId(Long userId) {
+    public List<Announcement> getAnnouncementsOfUserWithId(String userId) {
         return repository.findAllByUser_Id(userId);
     }
 

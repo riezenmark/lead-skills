@@ -7,9 +7,9 @@ import org.omaewa.notastepik.service.api.util.CrudService;
 import java.util.List;
 
 public interface AnnouncementService extends CrudService<Announcement, Long> {
-    void deleteAllUserAnnouncements(final Long userId);
+    void deleteAllUserAnnouncements(final String userId);
 
     List<Announcement> getAnnouncements(final String q, final Long timeFrom, final Long timeTo, final AnnouncementType type);
 
-    List<Announcement> getAnnouncementsOfUserWithId(final Long userId);
+    List<Announcement> getAnnouncementsOfUserWithId(final String userId);
 }

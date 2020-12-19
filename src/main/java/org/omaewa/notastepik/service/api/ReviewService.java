@@ -6,5 +6,5 @@ import org.omaewa.notastepik.service.api.util.CrudService;
 public interface ReviewService extends CrudService<Review, Long> {
     void deleteAllAnnouncementReviews(final Long announcementId);
 
-    void deleteAllUserReviews(final Long userId);
+    void deleteAllUserReviews(final String userId);
 }

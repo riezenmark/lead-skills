@@ -3,10 +3,11 @@ package org.omaewa.notastepik.service.impl;
 import org.omaewa.notastepik.domain.Role;
 import org.omaewa.notastepik.domain.User;
 import org.omaewa.notastepik.repository.UserRepository;
-import org.omaewa.notastepik.service.api.*;
+import org.omaewa.notastepik.service.api.AnnouncementService;
+import org.omaewa.notastepik.service.api.ReviewService;
+import org.omaewa.notastepik.service.api.TimetableService;
+import org.omaewa.notastepik.service.api.UserService;
 import org.omaewa.notastepik.service.api.util.PasswordEmailValidator;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -14,7 +15,7 @@ import org.springframework.util.StringUtils;
 import java.util.Objects;
 
 @Service
-public class UserServiceImpl extends AbstractService<Long, User, UserRepository> implements UserService {
+public class UserServiceImpl extends AbstractService<String, User, UserRepository> implements UserService {
     private final AnnouncementService announcementService;
     private final ReviewService reviewService;
     private final TimetableService timetableService;
@@ -33,19 +34,13 @@ public class UserServiceImpl extends AbstractService<Long, User, UserRepository>
 
     @Override
     @Transactional
-    public void delete(final Long id) {
+    public void delete(final String id) {
         repository.findById(id).ifPresent(user -> {
             announcementService.deleteAllUserAnnouncements(user.getId());
             timetableService.deleteAllUserTimetables(user.getId());
             reviewService.deleteAllUserReviews(user.getId());
             repository.delete(user);
         });
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        return repository.findByUsername(username);
     }
 
     @Override
@@ -56,20 +51,14 @@ public class UserServiceImpl extends AbstractService<Long, User, UserRepository>
 
     private boolean hasValidFields(final User user) {
         return hasRequiredFields(user)
-                && user.getName().length() <= 31
-                && user.getSurname().length() <= 31
                 && user.getUsername().length() <= 31
-                && PasswordEmailValidator.passwordIsValid(user.getPassword())
                 && user.getEmail().length() <= 255
                 && PasswordEmailValidator.emailIsValid(user.getEmail())
                 && !user.getAuthorities().contains(Role.ADMIN);
     }
 
     private boolean hasRequiredFields(final User user) {
-        return StringUtils.hasLength(user.getName())
-                && StringUtils.hasLength(user.getSurname())
-                && StringUtils.hasLength(user.getUsername())
-                && StringUtils.hasLength(user.getPassword())
+        return StringUtils.hasLength(user.getUsername())
                 && StringUtils.hasLength(user.getEmail())
                 && Objects.nonNull(user.getAuthorities())
                 && !user.getAuthorities().isEmpty();
@@ -83,15 +72,5 @@ public class UserServiceImpl extends AbstractService<Long, User, UserRepository>
     public void format(final User user) {
         super.format(user);
         user.setEnabled(false);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public boolean userWithNameExists(final User user) {
-        boolean exists = true;
-        if (user != null && user.getUsername() != null) {
-            exists = repository.existsByUsername(user.getUsername());
-        }
-        return exists;
     }
 }

@@ -1,31 +1,32 @@
 package org.omaewa.notastepik.config;
 
 import lombok.RequiredArgsConstructor;
-import org.omaewa.notastepik.service.api.UserService;
+import org.omaewa.notastepik.domain.User;
+import org.omaewa.notastepik.repository.UserRepository;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.time.LocalDateTime;
 
 @Configuration
 @EnableWebSecurity
+@EnableOAuth2Sso
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final PasswordEncoder passwordEncoder;
-    private final UserService userService;
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http.antMatcher("/**")
                 .authorizeRequests()
-                    .antMatchers("/", "/signup", "/api/**/**", "/error**").permitAll()
+                    .antMatchers("/", "/login", "/js/**", "/static/js/**    ", "/api/**/**", "/error**").permitAll()
                     .anyRequest().authenticated()
-                .and()
-                    .formLogin().permitAll()
                 .and()
                     .rememberMe().alwaysRemember(true)
                 .and()
@@ -34,9 +35,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .csrf().disable();
     }
 
-    @Override
-    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService)
-                .passwordEncoder(passwordEncoder);
+    @Bean
+    public PrincipalExtractor principalExtractor(UserRepository userRepository) {
+        return map -> {
+            String id = (String) map.get("sub");
+            User user = userRepository.findById(id).orElseGet(() -> {
+                User newUser = new User();
+
+                newUser.setId(id);
+                newUser.setUsername((String) map.get("name"));
+                newUser.setEmail((String) map.get("email"));
+                newUser.setGender((String) map.get("gender"));
+                newUser.setLocale((String) map.get("locale"));
+                newUser.setUserpic((String) map.get("picture"));
+
+                return newUser;
+            });
+
+            user.setLastVisit(LocalDateTime.now());
+            return userRepository.save(user);
+        };
     }
 }

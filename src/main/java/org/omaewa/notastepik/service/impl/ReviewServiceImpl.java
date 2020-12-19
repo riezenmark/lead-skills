@@ -24,7 +24,7 @@ public class ReviewServiceImpl extends AbstractService<Long, Review, ReviewRepos
 
     @Override
     @Transactional
-    public void deleteAllUserReviews(final Long userId) {
+    public void deleteAllUserReviews(final String userId) {
         Iterable<Review> usersReviews = repository.findAllByUser_Id(userId);
         repository.deleteInBatch(usersReviews);
     }

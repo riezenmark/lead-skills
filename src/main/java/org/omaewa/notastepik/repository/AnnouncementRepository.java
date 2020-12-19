@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface AnnouncementRepository extends JpaRepository<Announcement, Long>, AnnouncementRepositoryCustom {
     @Query("select a from Announcement a where a.author.id = :userId")
-    List<Announcement> findAllByUser_Id(final Long userId);
+    List<Announcement> findAllByUser_Id(final String userId);
 
     boolean existsByHeading(final String heading);
 
