@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <title>Lead Skills</title>
-    <link type="text/css" rel="stylesheet" href="/libs/webix/webix.css">
-    <script src="/libs/webix/webix.js"></script>
-    <script src="/libs/routie.min.js"></script>
-    <script data-main="js/index" src="/libs/require.min.js"></script>
+    <script th:inline="javascript">
+        const clientData = [[${clientData}]];
+    </script>
 </head>
 <body>
 <div id="app"></div>
+<script th:src="'http://localhost:8002/main.js'"></script>
 </body>
 </html>
