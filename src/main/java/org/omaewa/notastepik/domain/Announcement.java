@@ -29,18 +29,18 @@ public class Announcement implements PrimaryEntity<Long> {
     @JsonView(Views.Representation.class)
     private String description;
     @Min(value = 0)
-    @Max(value = 10)
+    @Max(value = 5)
     @JsonView(Views.Representation.class)
-    private short rating;
+    private float rating;
     @JsonView(Views.Representation.class)
     @Column(columnDefinition = "smallint default 0")
     private short numberOfParticipants;
     @Column(name = "date_time_from", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     @JsonView(Views.Representation.class)
-    private Calendar timestampFrom;
+    private Calendar timeFrom;
     @Column(name = "date_time_to", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     @JsonView(Views.Representation.class)
-    private Calendar timestampTo;
+    private Calendar timeTo;
     @JsonView(Views.Representation.class)
     @Column(columnDefinition = "boolean default false")
     private boolean occupied;
@@ -48,10 +48,6 @@ public class Announcement implements PrimaryEntity<Long> {
     @JoinColumn(name = "author_id")
     @JsonView(Views.IdRepresentation.class)
     private User author;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subject_id")
-    @JsonView(Views.Representation.class)
-    private Subject subject;
     @NotNull
     @Enumerated(EnumType.STRING)
     @JsonView(Views.Representation.class)

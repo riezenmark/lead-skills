@@ -45,10 +45,6 @@ public class User implements UserDetails, PrimaryEntity<Long> {
     @Column(unique = true)
     @NotNull(message = "Email не может быть пустым.")
     private String email;
-    @Min(value = 0)
-    @Max(value = 10)
-    @JsonView(Views.Representation.class)
-    private short rating;
     @JsonView(Views.Representation.class)
     private boolean enabled;
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)

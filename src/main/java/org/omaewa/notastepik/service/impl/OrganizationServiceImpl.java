@@ -12,7 +12,10 @@ import org.springframework.util.StringUtils;
 public class OrganizationServiceImpl extends AbstractService<Long, Organization, OrganizationRepository> implements OrganizationService {
     private final AnnouncementService announcementService;
 
-    public OrganizationServiceImpl(final OrganizationRepository repository, final AnnouncementService announcementService) {
+    public OrganizationServiceImpl(
+            final OrganizationRepository repository,
+            final AnnouncementService announcementService
+    ) {
         super(repository);
         this.announcementService = announcementService;
     }

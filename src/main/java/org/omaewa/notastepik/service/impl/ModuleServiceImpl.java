@@ -14,7 +14,7 @@ import java.util.Objects;
 public class ModuleServiceImpl extends AbstractService<Long, Module, ModuleRepository> implements ModuleService {
     private final LessonService lessonService;
 
-    public ModuleServiceImpl(final ModuleRepository repository, final LessonService lessonService   ) {
+    public ModuleServiceImpl(final ModuleRepository repository, final LessonService lessonService) {
         super(repository);
         this.lessonService = lessonService;
     }

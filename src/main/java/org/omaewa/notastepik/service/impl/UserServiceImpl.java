@@ -19,7 +19,12 @@ public class UserServiceImpl extends AbstractService<Long, User, UserRepository>
     private final ReviewService reviewService;
     private final TimetableService timetableService;
 
-    public UserServiceImpl(final UserRepository repository, final AnnouncementService announcementService, final ReviewService reviewService, final TimetableService timetableService) {
+    public UserServiceImpl(
+            final UserRepository repository,
+            final AnnouncementService announcementService,
+            final ReviewService reviewService,
+            final TimetableService timetableService
+    ) {
         super(repository);
         this.announcementService = announcementService;
         this.reviewService = reviewService;
@@ -54,8 +59,6 @@ public class UserServiceImpl extends AbstractService<Long, User, UserRepository>
                 && user.getName().length() <= 31
                 && user.getSurname().length() <= 31
                 && user.getUsername().length() <= 31
-                && user.getRating() >= 0
-                && user.getRating() <= 10
                 && PasswordEmailValidator.passwordIsValid(user.getPassword())
                 && user.getEmail().length() <= 255
                 && PasswordEmailValidator.emailIsValid(user.getEmail())
@@ -79,7 +82,6 @@ public class UserServiceImpl extends AbstractService<Long, User, UserRepository>
     @Override
     public void format(final User user) {
         super.format(user);
-        user.setRating((short) 5);
         user.setEnabled(false);
     }
 }

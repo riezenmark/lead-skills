@@ -1,6 +1,7 @@
 package org.omaewa.notastepik.service.impl;
 
 import org.omaewa.notastepik.domain.Announcement;
+import org.omaewa.notastepik.domain.AnnouncementType;
 import org.omaewa.notastepik.repository.AnnouncementRepository;
 import org.omaewa.notastepik.service.api.AnnouncementService;
 import org.omaewa.notastepik.service.api.ModuleService;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 @Service
 public class AnnouncementServiceImpl extends AbstractService<Long, Announcement, AnnouncementRepository> implements AnnouncementService {
@@ -19,10 +22,15 @@ public class AnnouncementServiceImpl extends AbstractService<Long, Announcement,
     @Lazy
     @Autowired
     private AnnouncementService _self;
+
     private final ReviewService reviewService;
     private final ModuleService moduleService;
 
-    public AnnouncementServiceImpl(final AnnouncementRepository repository, final ReviewService reviewService, final ModuleService moduleService) {
+    public AnnouncementServiceImpl(
+            final AnnouncementRepository repository,
+            final ReviewService reviewService,
+            final ModuleService moduleService
+    ) {
         super(repository);
         this.reviewService = reviewService;
         this.moduleService = moduleService;
@@ -37,10 +45,19 @@ public class AnnouncementServiceImpl extends AbstractService<Long, Announcement,
     }
 
     @Override
-    @Transactional
-    public void deleteAllAnnouncementsWithSubject(final Integer subjectId) {
-        Iterable<Announcement> announcementsWithSubject = repository.findAllBySubject_Id(subjectId);
-        announcementsWithSubject.forEach(this::delete);
+    @Transactional(readOnly = true)
+    public List<Announcement> getAnnouncements(
+            final String q,
+            final Long timeFrom, final Long timeTo,
+            final AnnouncementType type
+    ) {
+        List<Announcement> foundAnnouncements;
+        if (Stream.of(q, timeFrom, timeTo, type).anyMatch(Objects::nonNull)) {
+            foundAnnouncements = repository.findAnnouncementsByParameters(q, timeFrom, timeTo, type);
+        } else {
+            foundAnnouncements = repository.findAll();
+        }
+        return foundAnnouncements;
     }
 
     private void delete(final Announcement announcement) {
@@ -66,9 +83,8 @@ public class AnnouncementServiceImpl extends AbstractService<Long, Announcement,
                 && announcement.getHeading().length() <= 255
                 && StringUtils.hasLength(announcement.getDescription())
                 && announcement.getRating() >= 0
-                && announcement.getRating() <= 10
+                && announcement.getRating() <= 5
                 && Objects.nonNull(announcement.getAuthor())
-                && Objects.nonNull(announcement.getSubject())
                 && Objects.nonNull(announcement.getType());
     }
 
