@@ -45,9 +45,9 @@ public class Announcement implements PrimaryEntity<Long> {
     @Column(columnDefinition = "boolean default false")
     private boolean occupied;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "author_id")
     @JsonView(Views.IdRepresentation.class)
-    private User user;
+    private User author;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
     @JsonView(Views.Representation.class)
