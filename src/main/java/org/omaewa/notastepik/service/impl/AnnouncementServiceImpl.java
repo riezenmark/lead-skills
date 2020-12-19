@@ -41,7 +41,6 @@ public class AnnouncementServiceImpl extends AbstractService<Long, Announcement,
     public void deleteAllAnnouncementsWithSubject(final Integer subjectId) {
         Iterable<Announcement> announcementsWithSubject = repository.findAllBySubject_Id(subjectId);
         announcementsWithSubject.forEach(this::delete);
-        repository.deleteInBatch(announcementsWithSubject);
     }
 
     private void delete(final Announcement announcement) {
@@ -50,9 +49,10 @@ public class AnnouncementServiceImpl extends AbstractService<Long, Announcement,
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(final Long id) {
         reviewService.deleteAllAnnouncementReviews(id);
         moduleService.deleteAllAnnouncementModules(id);
+        repository.deleteById(id);
     }
 
     @Override

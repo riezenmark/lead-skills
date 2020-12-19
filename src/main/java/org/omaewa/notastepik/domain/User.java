@@ -56,6 +56,9 @@ public class User implements UserDetails, PrimaryEntity<Long> {
     @Enumerated(EnumType.STRING)
     @JsonView(Views.Representation.class)
     private Set<Role> authorities;
+    @JsonView(Views.IdRepresentation.class)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Organization organization;
 
     public boolean isAccountNonExpired() {
         return true;

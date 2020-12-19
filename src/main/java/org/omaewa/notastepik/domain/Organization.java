@@ -30,7 +30,4 @@ public class Organization implements PrimaryEntity<Long> {
     @OneToMany(fetch = FetchType.LAZY)
     @JsonView(Views.IdRepresentation.class)
     private List<Announcement> announcements;
-    @OneToMany(fetch = FetchType.LAZY)
-    @JsonView(Views.IdRepresentation.class)
-    private List<User> members;
 }

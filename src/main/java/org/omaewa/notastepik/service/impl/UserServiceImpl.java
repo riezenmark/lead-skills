@@ -3,9 +3,7 @@ package org.omaewa.notastepik.service.impl;
 import org.omaewa.notastepik.domain.Role;
 import org.omaewa.notastepik.domain.User;
 import org.omaewa.notastepik.repository.UserRepository;
-import org.omaewa.notastepik.service.api.AnnouncementService;
-import org.omaewa.notastepik.service.api.ReviewService;
-import org.omaewa.notastepik.service.api.UserService;
+import org.omaewa.notastepik.service.api.*;
 import org.omaewa.notastepik.service.api.util.PasswordEmailValidator;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,11 +17,13 @@ import java.util.Objects;
 public class UserServiceImpl extends AbstractService<Long, User, UserRepository> implements UserService {
     private final AnnouncementService announcementService;
     private final ReviewService reviewService;
+    private final TimetableService timetableService;
 
-    public UserServiceImpl(final UserRepository repository, final AnnouncementService announcementService, final ReviewService reviewService) {
+    public UserServiceImpl(final UserRepository repository, final AnnouncementService announcementService, final ReviewService reviewService, final TimetableService timetableService) {
         super(repository);
         this.announcementService = announcementService;
         this.reviewService = reviewService;
+        this.timetableService = timetableService;
     }
 
     @Override
@@ -31,6 +31,7 @@ public class UserServiceImpl extends AbstractService<Long, User, UserRepository>
     public void delete(final Long id) {
         repository.findById(id).ifPresent(user -> {
             announcementService.deleteAllUserAnnouncements(user.getId());
+            timetableService.deleteAllUserTimetables(user.getId());
             reviewService.deleteAllUserReviews(user.getId());
             repository.delete(user);
         });

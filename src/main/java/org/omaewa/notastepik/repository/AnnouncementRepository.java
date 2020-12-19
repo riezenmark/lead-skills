@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AnnouncementRepository extends JpaRepository<Announcement, Long> {
-    @Query("select a from Announcement a where a.user.id = :userId")
+    @Query("select a from Announcement a where a.author.id = :userId")
     Iterable<Announcement> findAllByUser_Id(final Long userId);
 
     @Query("select a from Announcement a where a.subject.id = :subjectId")
