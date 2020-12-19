@@ -3,9 +3,8 @@
     <v-col class="col-12 col-md-1"></v-col>
     <v-col class="col-12 col-md-7">
       <v-row class="mb-1">{{announcement.heading}}</v-row>
-      <v-row class="my-1">{{announcement.subject.name}}</v-row>
       <v-row class="mt-1">
-        <v-rating :value="announcement.rating" readonly dense></v-rating>
+        <v-rating :value="announcement.rating" readonly half-increments background-color="orange lighten-3" color="orange" dense></v-rating>
       </v-row>
       <v-row class="mt-12">Описание курса:</v-row>
       <v-row>{{announcement.description}}</v-row>

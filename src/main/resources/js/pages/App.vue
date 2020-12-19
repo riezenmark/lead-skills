@@ -53,6 +53,24 @@
     </v-app-bar>
     <v-main>
       <v-container fluid class="pt-0">
+        <v-row style="background: #D0D0D0">
+          <v-col>
+            <v-tabs background-color="#D0D0D0" color="#1F2638">
+              <v-tab>Курсы</v-tab>
+              <v-tab>Мероприятия</v-tab>
+              <v-tab>Репетиторы</v-tab>
+            </v-tabs>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col>
+            <v-row>
+              <v-text-field v-model="search" @keyup.enter="searchForAnnouncements" placeholder="Поиск..." dense clearable></v-text-field>
+              <v-btn icon @click="searchForAnnouncements">
+                <v-icon>mdi-magnify</v-icon>
+              </v-btn>
+            </v-row>
+          </v-col>
+        </v-row>
         <router-view :announcements="announcements"></router-view>
       </v-container>
     </v-main>
@@ -71,7 +89,8 @@ export default {
 
   data: () => ({
     announcements: [],
-    drawer: null
+    drawer: null,
+    search: ''
   }),
   computed: mapState(['profile']),
   methods: {
@@ -79,6 +98,14 @@ export default {
       if (this.$route.path !== '/') {
         this.$router.push('/')
       }
+    },
+    searchForAnnouncements() {
+      this.announcements = []
+      this.$resource('/api/announcement').get({q: this.search}).then(result =>
+          result.json().then(data =>
+              data.forEach(announcement => this.announcements.push(announcement))
+          )
+      )
     }
   },
   props: {

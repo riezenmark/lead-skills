@@ -1,7 +1,6 @@
 package org.omaewa.notastepik.service.impl;
 
 import org.omaewa.notastepik.domain.Announcement;
-import org.omaewa.notastepik.domain.AnnouncementType;
 import org.omaewa.notastepik.repository.AnnouncementRepository;
 import org.omaewa.notastepik.service.api.AnnouncementService;
 import org.omaewa.notastepik.service.api.ModuleService;
@@ -14,7 +13,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
+import java.util.Optional;
 
 @Service
 public class AnnouncementServiceImpl extends AbstractService<Long, Announcement, AnnouncementRepository> implements AnnouncementService {
@@ -46,18 +45,10 @@ public class AnnouncementServiceImpl extends AbstractService<Long, Announcement,
 
     @Override
     @Transactional(readOnly = true)
-    public List<Announcement> getAnnouncements(
-            final String q,
-            final Long timeFrom, final Long timeTo,
-            final AnnouncementType type
-    ) {
-        List<Announcement> foundAnnouncements;
-        if (Stream.of(q, timeFrom, timeTo, type).anyMatch(Objects::nonNull)) {
-            foundAnnouncements = repository.findAnnouncementsByParameters(q, timeFrom, timeTo, type);
-        } else {
-            foundAnnouncements = repository.findAll();
-        }
-        return foundAnnouncements;
+    public List<Announcement> getAnnouncements(final String q) {
+        return Optional.ofNullable(q)
+                .map(s -> repository.findByHeadingLike(s.toUpperCase()))
+                .orElseGet(repository::findAll);
     }
 
     @Override

@@ -8,13 +8,14 @@ import org.omaewa.notastepik.util.Views;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "organization")
-public class Organization implements PrimaryEntity<Long> {
+public class Organization implements PrimaryEntity<Long>, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(Views.Id.class)

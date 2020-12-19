@@ -29,13 +29,10 @@ public class User implements PrimaryEntity<String>, Serializable {
     private String gender;
     private String locale;
     private LocalDateTime lastVisit;
-    @Column(unique = true)
     @NotNull(message = "Логин не может быть пустым.")
     @Length(max = 31, message = "Слишком длинный логин (больше 31 символа).")
     @JsonView({Views.Representation.class, Views.Review.class})
     private String username;
-    @Column(unique = true)
-    @NotNull(message = "Email не может быть пустым.")
     private String email;
     @JsonView(Views.Representation.class)
     private boolean enabled;

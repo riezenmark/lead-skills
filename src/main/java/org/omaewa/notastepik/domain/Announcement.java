@@ -9,12 +9,13 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "announcement")
-public class Announcement implements PrimaryEntity<Long> {
+public class Announcement implements PrimaryEntity<Long>, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(Views.Id.class)

@@ -8,12 +8,13 @@ import org.omaewa.notastepik.util.Views;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "module")
-public class Module implements PrimaryEntity<Long> {
+public class Module implements PrimaryEntity<Long>, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(Views.Id.class)
