@@ -6,6 +6,7 @@ import org.omaewa.notastepik.repository.UserRepository;
 import org.omaewa.notastepik.service.api.AnnouncementService;
 import org.omaewa.notastepik.service.api.ReviewService;
 import org.omaewa.notastepik.service.api.UserService;
+import org.omaewa.notastepik.service.api.util.PasswordEmailValidator;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -16,14 +17,6 @@ import java.util.Objects;
 
 @Service
 public class UserServiceImpl extends AbstractService<Long, User, UserRepository> implements UserService {
-    private static final String PASSWORD_REGEX;
-    private static final String EMAIL_REGEX;
-
-    static {
-        PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,31}$";
-        EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-    }
-
     private final AnnouncementService announcementService;
     private final ReviewService reviewService;
 
@@ -62,9 +55,9 @@ public class UserServiceImpl extends AbstractService<Long, User, UserRepository>
                 && user.getUsername().length() <= 31
                 && user.getRating() >= 0
                 && user.getRating() <= 10
-                && user.getPassword().matches(PASSWORD_REGEX)
+                && PasswordEmailValidator.passwordIsValid(user.getPassword())
                 && user.getEmail().length() <= 255
-                && user.getEmail().matches(EMAIL_REGEX)
+                && PasswordEmailValidator.emailIsValid(user.getEmail())
                 && !user.getAuthorities().contains(Role.ADMIN);
     }
 

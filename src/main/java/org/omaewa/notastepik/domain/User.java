@@ -21,7 +21,7 @@ import java.util.Set;
         attributeNodes = {
             @NamedAttributeNode("authorities")
         })
-public final class User implements UserDetails, PrimaryEntity<Long> {
+public class User implements UserDetails, PrimaryEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(Views.Id.class)

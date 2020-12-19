@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Table(name = "lesson")
-public final class Lesson implements PrimaryEntity<Long> {
+public class Lesson implements PrimaryEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(Views.Id.class)

@@ -18,7 +18,7 @@ public abstract class AbstractService<ID, T extends PrimaryEntity<ID>, R extends
 
     @Override
     @Transactional(readOnly = true)
-    public List<T> getPage() {
+    public List<T> list() {
         return repository.findAll();
     }
 

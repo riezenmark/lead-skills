@@ -13,7 +13,7 @@ import javax.validation.constraints.Min;
 @Getter
 @Setter
 @Table(name = "review")
-public final class Review implements PrimaryEntity<Long> {
+public class Review implements PrimaryEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(Views.Id.class)

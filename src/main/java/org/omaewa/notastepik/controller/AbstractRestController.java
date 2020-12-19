@@ -15,7 +15,7 @@ public abstract class AbstractRestController<T, ID, S extends CrudService<T, ID>
     @GetMapping
     @JsonView(Views.IdRepresentation.class)
     public List<T> list() {
-        return service.getPage();
+        return service.list();
     }
 
     @GetMapping("{id}")

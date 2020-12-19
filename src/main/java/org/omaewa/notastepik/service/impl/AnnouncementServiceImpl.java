@@ -67,7 +67,7 @@ public class AnnouncementServiceImpl extends AbstractService<Long, Announcement,
                 && StringUtils.hasLength(announcement.getDescription())
                 && announcement.getRating() >= 0
                 && announcement.getRating() <= 10
-                && Objects.nonNull(announcement.getUser())
+                && Objects.nonNull(announcement.getAuthor())
                 && Objects.nonNull(announcement.getSubject())
                 && Objects.nonNull(announcement.getType());
     }

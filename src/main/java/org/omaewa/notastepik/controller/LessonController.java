@@ -22,7 +22,7 @@ public class LessonController extends AbstractRestController<Lesson, Long, Lesso
     @GetMapping
     @JsonView(Views.Lesson.class)
     public List<Lesson> list() {
-        return service.getPage();
+        return service.list();
     }
 
     @Override

@@ -3,7 +3,7 @@ package org.omaewa.notastepik.service.api.util;
 import java.util.List;
 
 public interface CrudService<T, ID> {
-    List<T> getPage();
+    List<T> list();
 
     T getOne(final ID id);
 

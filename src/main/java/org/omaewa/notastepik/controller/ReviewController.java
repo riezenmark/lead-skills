@@ -22,7 +22,7 @@ public class ReviewController extends AbstractRestController<Review, Long, Revie
     @GetMapping
     @JsonView(Views.Review.class)
     public List<Review> list() {
-        return service.getPage();
+        return service.list();
     }
 
     @Override
