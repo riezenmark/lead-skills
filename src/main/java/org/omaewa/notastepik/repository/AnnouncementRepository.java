@@ -11,15 +11,15 @@ import java.util.Optional;
 
 public interface AnnouncementRepository extends JpaRepository<Announcement, Long>, AnnouncementRepositoryCustom {
     @Query("select a from Announcement a where a.author.id = :userId")
-    Iterable<Announcement> findAllByUser_Id(final Long userId);
+    List<Announcement> findAllByUser_Id(final Long userId);
 
     boolean existsByHeading(final String heading);
 
     @Override
-    @EntityGraph(attributePaths = {"user", "user.authorities"})
+    @EntityGraph(attributePaths = {"author", "author.authorities"})
     List<Announcement> findAll();
 
     @Override
-    @EntityGraph(attributePaths = {"user", "user.authorities"})
+    @EntityGraph(attributePaths = {"author", "author.authorities"})
     Optional<Announcement> findById(final Long id);
 }

@@ -60,6 +60,11 @@ public class AnnouncementServiceImpl extends AbstractService<Long, Announcement,
         return foundAnnouncements;
     }
 
+    @Override
+    public List<Announcement> getAnnouncementsOfUserWithId(Long userId) {
+        return repository.findAllByUser_Id(userId);
+    }
+
     private void delete(final Announcement announcement) {
         _self.delete(announcement.getId());
     }

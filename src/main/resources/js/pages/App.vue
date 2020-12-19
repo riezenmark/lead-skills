@@ -41,9 +41,14 @@
         Lead Skills
       </v-btn>
       <v-spacer></v-spacer>
-      <!--todo v-if чувак не авторизован-->
-      <v-btn text class="ml-2" @click="mainPage">
-        Вход
+      <v-btn v-if="!profile" text class="ml-2" href="/signup">
+        Вход и регистрация
+      </v-btn>
+      <v-btn v-if="profile" text class="ml-2">
+        {{profile.username}}
+      </v-btn>
+      <v-btn v-if="profile" icon href="/logout">
+        <v-icon>mdi-exit-to-app</v-icon>
       </v-btn>
     </v-app-bar>
     <v-main>

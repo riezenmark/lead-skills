@@ -84,4 +84,14 @@ public class UserServiceImpl extends AbstractService<Long, User, UserRepository>
         super.format(user);
         user.setEnabled(false);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean userWithNameExists(final User user) {
+        boolean exists = true;
+        if (user != null && user.getUsername() != null) {
+            exists = repository.existsByUsername(user.getUsername());
+        }
+        return exists;
+    }
 }

@@ -38,13 +38,13 @@ public class PersistenceJPAConfig {
 
         return dataSource;
     }
-     //todo формат и шоу sql, hbm2ddl
+     //todo hbm2ddl
     Properties additionalProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", hbm2ddl);
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL94Dialect");
-        properties.setProperty("hibernate.show_sql", "true");
-        properties.setProperty("hibernate.format_sql", "true");
+        properties.setProperty("hibernate.show_sql", "false");
+        properties.setProperty("hibernate.format_sql", "false");
 
         return properties;
     }
