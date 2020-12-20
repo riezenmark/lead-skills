@@ -56,9 +56,9 @@
         <v-row style="background: #D0D0D0">
           <v-col>
             <v-tabs background-color="#D0D0D0" color="#1F2638">
-              <v-tab>Курсы</v-tab>
-              <v-tab>Мероприятия</v-tab>
-              <v-tab>Репетиторы</v-tab>
+              <v-tab @click="findAnnouncementsOfType('TRAINING')">Курсы</v-tab>
+              <v-tab @click="findAnnouncementsOfType('EVENT')">Мероприятия</v-tab>
+              <v-tab @click="findAnnouncementsOfType('TUTORING')">Репетиторы</v-tab>
             </v-tabs>
           </v-col>
           <v-spacer></v-spacer>
@@ -102,6 +102,14 @@ export default {
     searchForAnnouncements() {
       this.announcements = []
       this.$resource('/api/announcement').get({q: this.search}).then(result =>
+          result.json().then(data =>
+              data.forEach(announcement => this.announcements.push(announcement))
+          )
+      )
+    },
+    findAnnouncementsOfType(type) {
+      this.announcements = []
+      this.$resource('/api/announcement').get({type: type}).then(result =>
           result.json().then(data =>
               data.forEach(announcement => this.announcements.push(announcement))
           )

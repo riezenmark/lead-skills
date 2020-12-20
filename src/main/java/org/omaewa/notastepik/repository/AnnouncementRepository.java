@@ -1,6 +1,7 @@
 package org.omaewa.notastepik.repository;
 
 import org.omaewa.notastepik.domain.Announcement;
+import org.omaewa.notastepik.domain.AnnouncementType;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +25,6 @@ public interface AnnouncementRepository extends JpaRepository<Announcement, Long
 
     @Query("SELECT a from Announcement a where upper(a.heading) like %:pattern%")
     List<Announcement> findByHeadingLike(final String pattern);
+
+    List<Announcement> findByType(final AnnouncementType type);
 }

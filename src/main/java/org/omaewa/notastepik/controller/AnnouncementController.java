@@ -18,8 +18,11 @@ public class AnnouncementController {
 
     @GetMapping
     @JsonView(Views.IdRepresentation.class)
-    public List<Announcement> list(@RequestParam(required = false) final String q) {
-        return service.getAnnouncements(q);
+    public List<Announcement> list(
+            @RequestParam(required = false) final String q,
+            @RequestParam(required = false) final AnnouncementType type
+    ) {
+        return service.getAnnouncements(q, type);
     }
 
     @GetMapping("{id}")

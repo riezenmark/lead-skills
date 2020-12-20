@@ -1,6 +1,7 @@
 package org.omaewa.notastepik.service.impl;
 
 import org.omaewa.notastepik.domain.Announcement;
+import org.omaewa.notastepik.domain.AnnouncementType;
 import org.omaewa.notastepik.repository.AnnouncementRepository;
 import org.omaewa.notastepik.service.api.AnnouncementService;
 import org.omaewa.notastepik.service.api.ModuleService;
@@ -45,10 +46,16 @@ public class AnnouncementServiceImpl extends AbstractService<Long, Announcement,
 
     @Override
     @Transactional(readOnly = true)
-    public List<Announcement> getAnnouncements(final String q) {
-        return Optional.ofNullable(q)
-                .map(s -> repository.findByHeadingLike(s.toUpperCase()))
-                .orElseGet(repository::findAll);
+    public List<Announcement> getAnnouncements(final String q, final AnnouncementType type) {
+        List<Announcement> announcements;
+        if (Objects.nonNull(q)) {
+            announcements = repository.findByHeadingLike(q.toUpperCase());
+        } else if (Objects.nonNull(type)) {
+            announcements = repository.findByType(type);
+        } else {
+            announcements = repository.findAll();
+        }
+        return announcements;
     }
 
     @Override
