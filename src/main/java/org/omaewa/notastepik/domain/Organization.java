@@ -1,5 +1,6 @@
 package org.omaewa.notastepik.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +29,7 @@ public class Organization implements PrimaryEntity<Long>, Serializable {
     @NotNull
     @Length(min = 8, max = 31, message = "Длина пароля должна быть между 8 и 31 символом.")
     private String password;
-    @OneToMany(fetch = FetchType.LAZY)
-    @JsonView(Views.IdRepresentation.class)
+    @OneToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<Announcement> announcements;
 }

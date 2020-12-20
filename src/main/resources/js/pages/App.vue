@@ -118,6 +118,9 @@ export default {
       )
     },
     searchForAnnouncements() {
+      if (this.$route.path !== '/') {
+        this.$router.push('/')
+      }
       this.announcements = []
       this.$resource('/api/announcement').get({q: this.search}).then(result =>
           result.json().then(data =>
@@ -126,6 +129,9 @@ export default {
       )
     },
     findAnnouncementsOfType(type) {
+      if (this.$route.path !== '/') {
+        this.$router.push('/')
+      }
       this.announcements = []
       this.$resource('/api/announcement').get({type: type}).then(result =>
           result.json().then(data =>

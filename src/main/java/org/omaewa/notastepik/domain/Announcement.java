@@ -44,7 +44,7 @@ public class Announcement implements PrimaryEntity<Long>, Serializable {
     @JsonView(Views.Representation.class)
     @Column(columnDefinition = "boolean default false")
     private boolean occupied;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id")
     @JsonView(Views.IdRepresentation.class)
     private User author;

@@ -19,8 +19,8 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class PersistenceJPAConfig {
     //todo перменные окружения
-    //@Value("${hbm2ddl}")
-    private String hbm2ddl = "update";
+    @Value("${hbm2ddl}")
+    private String hbm2ddl;
     //@Value("${dbUrl}")
     private final String dbUrl = "jdbc:postgresql://localhost:5432/not_a_stepik";
     //@Value("${dbPassword}")
@@ -38,7 +38,7 @@ public class PersistenceJPAConfig {
 
         return dataSource;
     }
-     //todo hbm2ddl
+
     Properties additionalProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", hbm2ddl);

@@ -1,6 +1,7 @@
 package org.omaewa.notastepik.config;
 
 import lombok.RequiredArgsConstructor;
+import org.omaewa.notastepik.domain.Role;
 import org.omaewa.notastepik.domain.User;
 import org.omaewa.notastepik.repository.UserRepository;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Configuration
 @EnableWebSecurity
@@ -48,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 newUser.setGender((String) map.get("gender"));
                 newUser.setLocale((String) map.get("locale"));
                 newUser.setUserpic((String) map.get("picture"));
+                newUser.setAuthorities(Set.of(Role.STUDENT));
 
                 return newUser;
             });

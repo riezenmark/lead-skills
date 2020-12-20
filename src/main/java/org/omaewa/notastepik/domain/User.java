@@ -1,5 +1,6 @@
 package org.omaewa.notastepik.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,7 +42,7 @@ public class User implements PrimaryEntity<String>, Serializable {
     @Enumerated(EnumType.STRING)
     @JsonView(Views.Representation.class)
     private Set<Role> authorities;
-    @JsonView(Views.IdRepresentation.class)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     private Organization organization;
 }

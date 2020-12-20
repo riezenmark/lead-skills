@@ -10,7 +10,8 @@
         <v-divider class="ma-2"></v-divider>
         <v-row>
           <v-btn class="mx-2" @click="openAnnouncement">Подробнее</v-btn>
-          <v-btn class="mx-2">Записаться</v-btn>
+          <!--todo если пользователь не записан-->
+          <v-btn @click="getOnCourse" class="mx-2">Записаться</v-btn>
         </v-row>
       </v-card-text>
     </v-card>
@@ -18,7 +19,10 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
+  computed: mapState(['profile', 'addedAnnouncements']),
   props: ['announcement'],
   methods: {
     openAnnouncement() {
