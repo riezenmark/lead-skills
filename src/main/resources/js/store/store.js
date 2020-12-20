@@ -6,6 +6,6 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         profile: clientData.profile,
-        addedCars: clientData.addedCars
+        addedAnnouncements: clientData.addedAnnouncements
     }
 })

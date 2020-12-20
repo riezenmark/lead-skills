@@ -7,7 +7,7 @@
           Мои репетиторы
         </v-row>
       </v-btn>
-      <v-btn block text class="white--text">
+      <v-btn block @click="showUserAnnouncements" text class="white--text">
         <v-row class="ml-5">
           <v-icon left>mdi-bag-checked</v-icon>
           Мои курсы
@@ -19,18 +19,28 @@
           Моё расписание
         </v-row>
       </v-btn>
-      <!--todo v-if чувак не репет-->
-      <v-btn block text class="white--text">
+      <v-btn v-if="showBecomeTutorButton" block text class="white--text">
         <v-row class="ml-5">
           <v-icon left>mdi-account-plus</v-icon>
           Стать репетитором
         </v-row>
       </v-btn>
-      <!--todo v-if чувак не представитель-->
-      <v-btn block text class="white--text">
+      <v-btn v-else block text class="white--text">
+        <v-row class="ml-5">
+          <v-icon left>mdi-plus-box-multiple</v-icon>
+          Добавить уроки
+        </v-row>
+      </v-btn>
+      <v-btn v-if="showAddOrganizationButton" block text class="white--text">
         <v-row class="ml-5">
           <v-icon left>mdi-briefcase-plus</v-icon>
           Добавить организацию
+        </v-row>
+      </v-btn>
+      <v-btn v-else block text class="white--text">
+        <v-row class="ml-5">
+          <v-icon left>mdi-plus-box-multiple</v-icon>
+          Добавить мероприятия
         </v-row>
       </v-btn>
     </v-navigation-drawer>
@@ -90,14 +100,22 @@ export default {
   data: () => ({
     announcements: [],
     drawer: null,
-    search: ''
+    search: '',
+    showBecomeTutorButton: true,
+    showAddOrganizationButton: true
   }),
-  computed: mapState(['profile']),
+  computed: mapState(['profile', 'addedAnnouncements']),
   methods: {
     mainPage() {
       if (this.$route.path !== '/') {
         this.$router.push('/')
       }
+      this.announcements = []
+      this.$resource("/api/announcement").get().then(result =>
+          result.json().then(data =>
+              data.forEach(announcement => this.announcements.push(announcement))
+          )
+      )
     },
     searchForAnnouncements() {
       this.announcements = []
@@ -114,6 +132,9 @@ export default {
               data.forEach(announcement => this.announcements.push(announcement))
           )
       )
+    },
+    showUserAnnouncements() {
+      this.announcements = this.addedAnnouncements
     }
   },
   props: {
@@ -125,6 +146,8 @@ export default {
             data.forEach(announcement => this.announcements.push(announcement))
         )
     )
+    this.showBecomeTutorButton = !this.profile.authorities.includes('TUTOR')
+    this.showAddOrganizationButton = !this.profile.authorities.includes('MEMBER')
   }
 }
 </script>
