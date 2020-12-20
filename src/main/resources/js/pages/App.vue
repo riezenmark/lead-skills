@@ -13,7 +13,7 @@
           Мои курсы
         </v-row>
       </v-btn>
-      <v-btn block text class="white--text">
+      <v-btn @click="openTimetable" block text class="white--text">
         <v-row class="ml-5">
           <v-icon left>mdi-calendar-month</v-icon>
           Моё расписание
@@ -141,6 +141,9 @@ export default {
     },
     showUserAnnouncements() {
       this.announcements = this.addedAnnouncements
+    },
+    openTimetable() {
+      this.$router.push('/timetable')
     }
   },
   props: {
