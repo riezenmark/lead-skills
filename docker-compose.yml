@@ -1,0 +1,36 @@
+version: '3'
+services:
+  database:
+    image: postgres:13.1-alpine
+    container_name: database
+    volumes:
+      - lead_skills_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 2212
+      POSTGRES_DB: not_a_stepik
+      PGDATA: /var/lib/postgresql/data
+    networks:
+      - lead_skills_network
+    restart: always
+  back:
+    image: riezenmark/lead_skills_back:v2
+    container_name: backend
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/not_a_stepik
+    networks:
+      - lead_skills_network
+    restart: always
+  front:
+    image: riezenmark/lead_skills_front:v2
+    container_name: frontend
+    ports:
+      - 9000:8080
+    networks:
+      - lead_skills_network
+    restart: always
+volumes:
+  lead_skills_db:
+networks:
+  lead_skills_network:
