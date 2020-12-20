@@ -22,7 +22,7 @@ public class PersistenceJPAConfig {
     @Value("${hbm2ddl}")
     private String hbm2ddl;
     //@Value("${dbUrl}")
-    private final String dbUrl = "jdbc:postgresql://localhost:5432/not_a_stepik";
+    private final String dbUrl = "jdbc:postgresql://database:5432/not_a_stepik";
     //@Value("${dbPassword}")
     private final String dbPassword = "2212";
     //@Value("${dbUsername}")

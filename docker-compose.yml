@@ -3,6 +3,8 @@ services:
   database:
     image: postgres:13.1-alpine
     container_name: database
+    ports:
+      - 5432:5432
     volumes:
       - lead_skills_db:/var/lib/postgresql/data
     environment:
@@ -13,7 +15,7 @@ services:
       - lead_skills_network
     restart: always
   back:
-    image: riezenmark/lead_skills_back:v2
+    image: riezenmark/lead_skills_back:v3
     container_name: backend
     ports:
       - 8080:8080
